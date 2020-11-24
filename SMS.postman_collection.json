@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "1c16f886-5bce-46ab-8969-74135085db69",
+		"name": "SMS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "authenticate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"username\":\"admin\",\n\t\"password\":\"admin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by email",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU4NDExMDk0NiwiaWF0IjoxNTg0MDkyOTQ2fQ._BzkstOJ2hvBVP3sAoo2d9LavEf-i0nn45HCHcBVt9F3qCG-J5WSK1a3oF6E34wp3g8moNgtSLH1b3usk6LKwg",
+						"type": "text"
+					},
+					{
+						"key": "X-TenantID",
+						"value": "4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/users/admin@mail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"admin@mail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create organization",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU4NDQ2MTM5NCwiaWF0IjoxNTg0NDQzMzk0fQ.TEWW9IjCqBL8ncX-W_kELeNpFMfFvJtb0XcogbNylsucRLcxD55DGEV_iR5SQTZixRoOmTAiBSGUc5CcWXJDaA",
+						"type": "text"
+					},
+					{
+						"key": "X-TenantID",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"organizationName\":\"Test School\",\n\t\"organizationType\":\"school\",\n\t\"organizationSubType\":\"cbse\",\n\t\"parentOrgId\":\"\",\n\t\"registrationNo\":\"123\",\n\t\"active\":\"yes\",\n\t\"email\":\"test@test.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/organization",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"organization"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

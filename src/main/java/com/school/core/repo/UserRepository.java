@@ -1,0 +1,22 @@
+package com.school.core.repo;
+
+import java.util.Set;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.school.core.entity.User;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
+    User findByUserName(String userName);
+    @Query(
+			  value = "SELECT user FROM User user WHERE user.mobile = ?1 and user.active = true")
+    User findByMobile(String mobile);
+    
+    @Query(
+			  value = "SELECT user.mobile FROM User user WHERE user.active = true")
+  Set<String> getMobileBySchool();
+}

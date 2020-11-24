@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "aws",
+      "type": "com.school.core.util.S3ServiceUtil",
+      "sourceType": "com.school.core.util.S3ServiceUtil"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
