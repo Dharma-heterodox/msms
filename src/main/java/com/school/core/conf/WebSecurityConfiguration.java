@@ -80,5 +80,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private final String loginNotRequired  []=new String [] {"/**/student/**","/authenticate","/school/**/contest","/school/**/contest/**","/school/**/admission",
 			"/school/**/admission/download", "/registration/**","/**/grade", "/login", "/verifyOTP", "/admission", "/v2/api-docs",
 			"/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html","/webjars/**", "/swagger-resources/configuration/ui",
-			"/swagger-resources/configuration/security","/**/student/upload","/**/student/approve"};
+			"/swagger-resources/configuration/security","/**/student/upload","/**/student/approve","/**/employee/**"};
 }

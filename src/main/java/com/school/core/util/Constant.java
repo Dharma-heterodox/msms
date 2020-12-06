@@ -16,6 +16,8 @@ public interface Constant {
 	public String NOTIFICATION_TYPE_SMS = "SMS";
 	public String NOTIFICATION_TYPE_EMAIL = "EMAIL";
 	
+	String YES="Yes";
+	
 	public String activeRecord="1";
 	
 	public String HOMEWORK_MSG="Home Work Submitted Successfully";
@@ -29,6 +31,7 @@ public interface Constant {
 	String MOBILE_REGEX="^[0-9]{10}$";
 	String LANDLINE_REGEX="^[0-9-]{5,15}$";
 	String AADHAR_REGEX="^[0-9]{12,}$";
+	String NUMBER_REGEX="\\d{1,20}";
 	
 	int REQUEST_FAILED=0;
 	int REQUEST_SUCCESS=1;

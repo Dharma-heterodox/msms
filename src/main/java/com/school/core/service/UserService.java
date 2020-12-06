@@ -89,7 +89,7 @@ public class UserService {
     public User saveEmployeeAccount(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        Role userRole = roleRepository.findByRole(Roles.STAFF.toString());
+        Role userRole = roleRepository.findByRole(Roles.TEACHER.toString());
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return userRepository.save(user);
     }

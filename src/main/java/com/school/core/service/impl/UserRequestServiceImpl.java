@@ -1,8 +1,10 @@
 package com.school.core.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -11,12 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.school.core.entity.Employee;
 import com.school.core.entity.Parent;
 import com.school.core.entity.Role;
 import com.school.core.entity.Student;
 import com.school.core.entity.StudentSectionRecord;
 import com.school.core.entity.User;
 import com.school.core.entity.UserRequest;
+import com.school.core.entity.teacher.EmployeeRequest;
+import com.school.core.repo.EmployeeRepo;
+import com.school.core.repo.EmployeeRequestRepo;
 import com.school.core.repo.ParentRepo;
 import com.school.core.repo.RoleRepository;
 import com.school.core.repo.UserRepository;
@@ -42,6 +48,12 @@ public class UserRequestServiceImpl implements UserRequestService{
 	
 	@Autowired
 	private ParentRepo parentRepo;
+	
+	@Autowired
+	private EmployeeRequestRepo employeeReqRepo;
+	
+	@Autowired
+	private EmployeeRepo empRepo;
 	
 	private Logger logger = LoggerFactory.getLogger(HomeworkDoneServiceImpl.class);
 
@@ -161,6 +173,139 @@ public class UserRequestServiceImpl implements UserRequestService{
 		Set<Role> role=new HashSet<Role>();
 		role.add(roleRepository.findByRole(Roles.PARENT.name()));
 		return role;
+	}
+	
+	@Override
+	@Transactional
+	public int createEmployeeAcc(List<Long> ids,Long schoolId) throws Exception {
+		// TODO Auto-generated method stub
+		List<EmployeeRequest> employeeRequest=null;
+		List<User> userList=null;
+		List<Employee> empList=null;
+		int result=0;
+		logger.debug("Create Employee acc ::");
+		try {
+//			employeeRequest=employeeReqRepo.getEmployeeReq(schoolId);
+			employeeRequest=employeeReqRepo.getEmployeeReq(ids);
+			userList=userRepo.saveAll(getEmpUserObject(employeeRequest));
+			empList=empRepo.saveAll(getEmployeeList(employeeRequest,userList ));
+			if(empList.size()>0) {
+				result=employeeReqRepo.updateReqStatus(Constant.REQUEST_APPROVED,ids);
+			}
+		}catch(Exception ex) {
+			logger.debug("Exception in createEmployeeAcc");
+			logger.error("createEmployeeAcc Exception :: "+ex.getMessage());
+			throw new Exception(ex);
+		}
+		return result;
+	}
+	
+	private List<User> getEmpUserObject(List<EmployeeRequest> empReqList) throws Exception{
+		List<User> userList=new ArrayList<User>();
+		Map<String,Role> roleMap=getEmployeeRole();
+		try {
+			empReqList.forEach(h -> {
+				User user=new User();
+				user.setActive(true);
+				user.setContactNo(h.getMobile());
+				user.setEmergencyContactNo(h.getAlternateMobile());
+				user.setFirstName(h.getEmployeeName());
+				user.setMobile(h.getMobile());
+				user.setPassword("$TESTONE");
+				user.setRoles(getRoleEntity(h.getTypeOrder(),roleMap));
+				user.setUserName(h.getEmployeeName());
+				user.setUserType("");
+				user.setLastName(h.getEmployeeName());
+				userList.add(user);
+			});
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return userList;
+		
+	}
+	
+	private Map<String,Role> getEmployeeRole(){
+		List<Role> role=roleRepository.findAll();
+		Map<String,Role> roleMap=new HashMap<String,Role>();
+		role.forEach(h -> {
+			roleMap.put(h.getRole(), h);
+		});
+		return roleMap;
+	}
+//	private Set<Role> getCoordinatorRole(){
+//		Set<Role> role=new HashSet<Role>();
+//		role.add(roleRepository.findByRole(Roles.COORDINATOR.name()));
+//		return role;
+//	}
+	
+	private List<Employee> getEmployeeList(List<EmployeeRequest> employeeRequest,List<User> userList)throws Exception{
+		List<Employee> employees=new ArrayList<Employee>();
+		try {
+			for(int i=0;i<employeeRequest.size();i++) {
+				Employee emp=new Employee();
+				EmployeeRequest req=(EmployeeRequest)employeeRequest.get(i);
+				User user=(User)userList.get(i);
+				emp.setAadhaarNo(req.getAadhaarNo());
+				emp.setActive(true);
+				emp.setAddress(req.getAddressOne());
+				emp.setAlternateMobile(req.getAlternateMobile());
+				emp.setCategory(getRoleName(req.getTypeOrder()).name());
+				emp.setDateOfJoin(req.getDoj());
+				emp.setDisplayName(req.getEmployeeName());
+				emp.setDob(req.getDob());
+				emp.setGender(req.getGender());
+				emp.setMobile(req.getMobile());
+				emp.setQualification(req.getQualification());
+				emp.setSchoolId(req.getSchoolId());
+//				emp.setSubCategory(0);
+				emp.setUserId(user.getId());
+				employees.add(emp);
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return employees;
+	}
+	
+	private Roles getRoleName(int typeOrder) {
+		switch (typeOrder) {
+		case 1:
+			return Roles.PRINCIPAL;
+		case 2:
+			return Roles.VICEPRINCIPAL;
+		case 3:
+			return Roles.COORDINATOR;
+		case 4:
+			return Roles.OFFICESTAFF;
+		case 5:
+			return Roles.TEACHER;
+		default :
+			return null;
+		}
+	}
+		
+		private Set<Role> getRoleEntity(int typeOrder,Map<String,Role> roleMap) {
+			Set<Role> role=new HashSet<Role>();
+			switch (typeOrder) {
+			case 1:
+				role.add(roleMap.get(Roles.PRINCIPAL.name()));
+				return role;
+			case 2:
+				role.add(roleMap.get(Roles.VICEPRINCIPAL.name()));
+				return role;
+			case 3:
+				role.add(roleMap.get(Roles.COORDINATOR.name()));
+				return role;
+			case 4:
+				role.add(roleMap.get(Roles.OFFICESTAFF.name()));
+				return role;
+			case 5:
+				role.add(roleMap.get(Roles.TEACHER.name()));
+				return role;
+			default :
+				return null;
+			}
 	}
 
 }

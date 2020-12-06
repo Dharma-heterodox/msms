@@ -199,7 +199,7 @@ public class LoginController {
     public EmployeeDto getEmployeeDetails(@PathVariable("userId")Long userId) throws Exception{
     	EmployeeDto employee=new EmployeeDto();
     	employee= employeeService.getEmployeeByUserId(userId);
-    	if(employee.getCategory().equals(Roles.STAFF.toString()) || employee.getSubCategory()==Roles.TEACHER.intValue){
+    	if(employee.getCategory().equals(Roles.TEACHER.toString())){
     		employee.setTeacherMapping(teacherMappingService.getTechMapByTeacher(employee.getId()));
     	}
     	

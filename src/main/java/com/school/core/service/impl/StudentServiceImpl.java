@@ -307,10 +307,11 @@ public class StudentServiceImpl implements StudentService {
 								break;
 							case 5:
 								Date date = currentCell.getDateCellValue();
-								LocalDate localDate = new java.sql.Date(date.getTime()).toLocalDate();
-								request.setDob(localDate);
-								if (request.getDob() == null || StringUtils.isEmpty(request.getDob())) {
+								if (date == null || StringUtils.isEmpty(date)) {
 									request.addUserRequestError(new UserRequestErrors(ErrorCodeV.DOB_NOTEMPTY));
+								}else {
+									LocalDate localDate = new java.sql.Date(date.getTime()).toLocalDate();
+									request.setDob(localDate);
 								}
 								break;
 							case 6:

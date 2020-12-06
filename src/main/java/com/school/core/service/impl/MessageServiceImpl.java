@@ -97,7 +97,7 @@ public class MessageServiceImpl implements MessageService {
 	 * @return
 	 */
 	private boolean sendCode(String mobileNo, String code, String formName, Long referenceId) {
-		String msg = "Dear Parent, thanks for yousing our parent connect app. Kindly login using password "+ code + " Stay connected!";
+		String msg = "Dear Parent, thanks for using our msms parent connect app. Kindly login using OTP "+ code + " Stay connected!";
 		return notificationService.sendSMS(mobileNo, msg, formName, referenceId);
 	}
 }
