@@ -51,9 +51,9 @@ public class TeacherMappingController {
 		return teacherMappingService.getAllTeacherMappingByStudentId(schoolId, studentId, null);
 	}
 	
-	@PostMapping(value="/upload")
-	@ResponseStatus(HttpStatus.OK)
-	public int uploadMappings(@PathVariable("schoolId") Long schoolId,@RequestParam("file") MultipartFile file)throws Exception{
-		return teacherMappingService.upload(schoolId, file);
-	}
+//	@PostMapping(value="/upload")
+//	@ResponseStatus(HttpStatus.OK)
+//	public int uploadMappings(@PathVariable("schoolId") Long schoolId,@RequestParam("file") MultipartFile file)throws Exception{
+//		return teacherMappingService.upload(schoolId, file);
+//	}
 }
