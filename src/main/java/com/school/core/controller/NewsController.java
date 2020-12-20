@@ -28,23 +28,26 @@ public class NewsController {
 	NewsService newsService;
 	
 	@PostMapping
-	public ResponseObj createNews(@PathVariable("schoolId") Long schoolId,
+	@ResponseStatus(HttpStatus.OK)
+	public NewsDto createNews(@PathVariable("schoolId") Long schoolId,
 			@RequestParam("newsDto") String news ,@RequestParam("file") MultipartFile file) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule());
 		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		NewsDto newsDto = mapper.readValue(news, NewsDto.class);
 		newsDto.setActive(true);
-		return new ResponseObj(newsService.createNews(schoolId, newsDto, file),HttpStatus.OK);
+		return newsService.createNews(schoolId, newsDto, file);
 	}
 
 	@GetMapping
-	public ResponseObj getAllNewsBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(newsService.getAllNewsBySchoolId(schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<NewsDto> getAllNewsBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return newsService.getAllNewsBySchoolId(schoolId);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseObj getCircular(@PathVariable("schoolId") Long schoolId, @PathVariable("id") Long id) {
-		return new ResponseObj(newsService.getNews(id),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public byte[] getCircular(@PathVariable("schoolId") Long schoolId, @PathVariable("id") Long id) {
+		return newsService.getNews(id);
 	}
 }

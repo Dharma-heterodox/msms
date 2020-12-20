@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.school.core.dto.ResponseObj;
@@ -27,19 +28,21 @@ public class SchoolController {
 	private SchoolService schoolService;
 
 	@RequestMapping(value = "/teacher", method = RequestMethod.POST)
-	public ResponseObj creaTeacher(@PathVariable("schoolId") String schoolId, @Valid @RequestBody Employee employee,
+	@ResponseStatus(HttpStatus.OK)
+	public Employee creaTeacher(@PathVariable("schoolId") String schoolId, @Valid @RequestBody Employee employee,
 			BindingResult bindingResult) {
 		employee.setCategory("teacher");
 		employee.setSchoolId(Long.parseLong(schoolId));
 		employee.setActive(true);
-		return new ResponseObj(schoolService.saveEmployeeDetails(employee),HttpStatus.OK);
+		return schoolService.saveEmployeeDetails(employee);
 	}
 
 	@RequestMapping(value = "/board", method = RequestMethod.POST)
-	public ResponseObj addGrade(@PathVariable("schoolId") String schoolId, @Valid @RequestBody SchoolBoard board,
+	@ResponseStatus(HttpStatus.OK)
+	public SchoolBoard addGrade(@PathVariable("schoolId") String schoolId, @Valid @RequestBody SchoolBoard board,
 			BindingResult bindingResult) {
 		board.setSchoolId(Long.parseLong(schoolId));
 		board.setActive(true);
-		return new ResponseObj(schoolService.addSchoolBoard(board),HttpStatus.OK);
+		return schoolService.addSchoolBoard(board);
 	}
 }

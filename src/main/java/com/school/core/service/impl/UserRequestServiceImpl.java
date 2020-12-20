@@ -258,6 +258,7 @@ public class UserRequestServiceImpl implements UserRequestService{
 				emp.setMobile(req.getMobile());
 				emp.setQualification(req.getQualification());
 				emp.setSchoolId(req.getSchoolId());
+				emp.setEmployeeCode(req.getEmployeeId());
 //				emp.setSubCategory(0);
 				emp.setUserId(user.getId());
 				employees.add(emp);

@@ -29,17 +29,20 @@ public class AdmissionController {
 	private AdmissionService admissionService;
 
 	@PostMapping("/admission")
-	public ResponseObj createAdmission(@RequestBody AdmissionDto admissionDto) {
+	@ResponseStatus(HttpStatus.OK)
+	public AdmissionDto createAdmission(@RequestBody AdmissionDto admissionDto) {
 		admissionDto.setActive(true);
-		return new ResponseObj(admissionService.createAdmission(admissionDto.getSchoolId(), admissionDto),HttpStatus.CREATED);
+		return admissionService.createAdmission(admissionDto.getSchoolId(), admissionDto);
 	}
 
 	@GetMapping(value="/school/{schoolId}/admission")
-	public ResponseObj getAllAdmissionBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(admissionService.getAllAdmissionBySchoolId(schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<AdmissionDto> getAllAdmissionBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return admissionService.getAllAdmissionBySchoolId(schoolId);
 	}
 	
 	@GetMapping(value = "/school/{schoolId}/admission/download")
+	@ResponseStatus(HttpStatus.OK)
     public ResponseEntity<InputStreamResource> downlod(@PathVariable("schoolId") Long schoolId) throws IOException {
     ByteArrayInputStream in = admissionService.download(schoolId);
     // return IOUtils.toByteArray(in);

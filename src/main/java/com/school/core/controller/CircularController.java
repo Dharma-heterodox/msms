@@ -28,22 +28,25 @@ public class CircularController {
 	CircularService circularService;
 	
 	@PostMapping
-	public ResponseObj createCircular(@PathVariable("schoolId") Long schoolId,
+	@ResponseStatus(HttpStatus.OK)
+	public CircularDto createCircular(@PathVariable("schoolId") Long schoolId,
 			@RequestParam("circular") String circular, @RequestParam("file") MultipartFile file) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule());
 		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		CircularDto circularDto = mapper.readValue(circular, CircularDto.class);
-		return new ResponseObj(circularService.createCircular(schoolId, circularDto, file),HttpStatus.OK);
+		return circularService.createCircular(schoolId, circularDto, file);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseObj getCircular(@PathVariable("schoolId") Long schoolId, @PathVariable("id") Long id) {
-		return new ResponseObj(circularService.getCircular(id),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public byte[] getCircular(@PathVariable("schoolId") Long schoolId, @PathVariable("id") Long id) {
+		return circularService.getCircular(id);
 	}
 
 	@GetMapping
-	public ResponseObj getAllCircularBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(circularService.getAllCircularBySchoolId(schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<CircularDto> getAllCircularBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return circularService.getAllCircularBySchoolId(schoolId);
 	}
 }

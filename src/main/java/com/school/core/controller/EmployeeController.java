@@ -1,5 +1,7 @@
 package com.school.core.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,25 +32,29 @@ public class EmployeeController {
 	UserRequestService userReqService;
 	
 	@PostMapping
-	public ResponseObj createEmployee(@PathVariable("schoolId") Long schoolId,
+	@ResponseStatus(HttpStatus.OK)
+	public EmployeeDto createEmployee(@PathVariable("schoolId") Long schoolId,
 			@RequestBody EmployeeDto employeeDto) {
-		return new ResponseObj(employeeService.createEmployee(schoolId, employeeDto),HttpStatus.CREATED);
+		return employeeService.createEmployee(schoolId, employeeDto);
 	}
 
 	@GetMapping
-	public ResponseObj getAllEmployeeBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(employeeService.getAllEmployeeBySchoolId(schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<EmployeeDto> getAllEmployeeBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return employeeService.getAllEmployeeBySchoolId(schoolId);
 	}
 	
 	@PostMapping(value="/upload")
-	public ResponseObj upload(@PathVariable("schoolId") Long schoolId, @RequestParam("file") MultipartFile file) throws Exception {
-		return new ResponseObj(employeeService.upload(schoolId, file),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public boolean upload(@PathVariable("schoolId") Long schoolId, @RequestParam("file") MultipartFile file) throws Exception {
+		return employeeService.upload(schoolId, file);
 	}
 //	Created By : Dharma
 //	Date:10-10-2020
 //	Purpose: To retrieve employee details and teacher mapped class & subject .
 	@GetMapping(value="/get/{userId}")
-	public ResponseObj getEmployee(@PathVariable ("userId")Long userId)throws Exception {
+	@ResponseStatus(HttpStatus.OK)
+	public EmployeeDto getEmployee(@PathVariable ("userId")Long userId)throws Exception {
 		EmployeeDto employee=null;
 		try {
 			employee=employeeService.getEmployeeByUserId(userId);
@@ -60,11 +67,12 @@ public class EmployeeController {
 			
 		}
 		
-		return new ResponseObj(employee,HttpStatus.OK);
+		return employee;
 	}
 	
 	@PostMapping(value="/approve")
-	public ResponseObj approve(@PathVariable("schoolId") Long schoolId, @RequestBody AuthorizeDto dto)throws Exception{
-		return new ResponseObj(userReqService.createEmployeeAcc(dto.getIds(), schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public int approve(@PathVariable("schoolId") Long schoolId, @RequestBody AuthorizeDto dto)throws Exception{
+		return userReqService.createEmployeeAcc(dto.getIds(), schoolId);
 	}
 }

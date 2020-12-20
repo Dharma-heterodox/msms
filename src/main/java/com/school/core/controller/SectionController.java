@@ -1,5 +1,7 @@
 package com.school.core.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +27,14 @@ public class SectionController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseObj createSection(@PathVariable("schoolId") Long schoolId,
+	public SectionDto createSection(@PathVariable("schoolId") Long schoolId,
 			@Valid @RequestBody SectionDto sectionDto) {
-		return new ResponseObj(sectionService.createSection(schoolId, sectionDto),HttpStatus.OK);
+		return sectionService.createSection(schoolId, sectionDto);
 	}
 
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseObj getAllSectionBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(sectionService.getAllSectionBySchoolId(schoolId),HttpStatus.OK);
+	public List<SectionDto> getAllSectionBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return sectionService.getAllSectionBySchoolId(schoolId);
 	}
 }

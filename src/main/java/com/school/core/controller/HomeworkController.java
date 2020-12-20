@@ -60,6 +60,7 @@ public class HomeworkController {
 	}
 	
 	@PostMapping
+	@ResponseStatus(HttpStatus.OK)
 	public HomeworkDto createHomework(@PathVariable("schoolId") Long schoolId, @RequestParam("homework") String homework, 
 			@RequestParam("file") MultipartFile file) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
@@ -74,6 +75,7 @@ public class HomeworkController {
 //	Date:20-10-2020
 //	Purpose: To create a new homework by teacher
 	@RequestMapping(value="/saveImage/{teacherId}" , method =RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseObj saveHomeworkImage(@PathVariable("teacherId") Long teacherId,@RequestParam ("file") MultipartFile file) throws Exception {
 		String url=homeworkService.putHomeworkInS3(teacherId, file);
 		logger.debug("POST save HW By teacher :: "+url);
@@ -84,19 +86,21 @@ public class HomeworkController {
 //	Date:20-10-2020
 //	Purpose: To create a new homework by teacher
 	@RequestMapping(value="/save" , method =RequestMethod.POST)
-	public ResponseObj saveHomework(@RequestBody HomeworkDto homework) throws Exception {
+	@ResponseStatus(HttpStatus.OK)
+	public String saveHomework(@RequestBody HomeworkDto homework) throws Exception {
 		Long id=homeworkService.saveHomework(homework);
 		logger.debug("POST save HW By teacher :: "+homework.getTitle());
 		if(id!=null && id>0) {
-			return new ResponseObj("Homework for students created successfully",HttpStatus.OK);
+			return "Homework for students created successfully";
 		}
-		return new ResponseObj("Something went wrong",HttpStatus.BAD_REQUEST);
+		return "Something went wrong";
 	}
 	
 //	Created By : Dharma
 //	Date:20-10-2020
 //	Purpose: To list subjects for students
 	@GetMapping(value="/subject/{gradeId}")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseObj getAllforGarde(@PathVariable("gradeId") Long gradeId)throws Exception
 	{
 		logger.debug("Get Subject list based on Grade :: "+gradeId);
@@ -114,6 +118,7 @@ public class HomeworkController {
 //	Date:20-10-2020
 //	Purpose: Admin to Approve/reject Homework	
 	@RequestMapping(value="/admin/auth" , method =RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseObj authorizeHomework(@RequestBody AuthorizeDto dto)throws Exception{
 		logger.debug("Authorize Homework :: "+dto.getIds().size()+" :: "+dto.getAuth());
 		String authDone=null;
@@ -130,6 +135,7 @@ public class HomeworkController {
 //	Date:20-10-2020
 //	Purpose: To list List Homework for Students
 	@PostMapping("/student/hwList")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseObj getHW4Student(@RequestBody HomeworkDto homework)throws Exception{
 		logger.debug("Get Homework list for Student,Section :: "+homework.getGradeId());
 		return new ResponseObj(homeworkService.getHW4Student(homework.getSectionId(),homework.getHomeworkDate()),HttpStatus.OK);
@@ -138,6 +144,7 @@ public class HomeworkController {
 //	Date:20-10-2020
 //	Purpose: To retrieve incomplete homework for particular teacher
 	@PostMapping("/teacher/hwList")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseObj editHomeworkList(@RequestBody HomeworkDto homework)throws Exception{
 		logger.debug("Get Homework list for Edit :: "+homework.getTeacherId());
 		return new ResponseObj(homeworkService.getHome4Edit(homework),HttpStatus.OK);
@@ -146,6 +153,7 @@ public class HomeworkController {
 //	Date:20-10-2020
 //	Purpose: To save completed homework
 	@PostMapping("/teacher/editHW")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseObj editHomework(@RequestBody HomeworkDto homework)throws Exception{
 		String response=null;
 		logger.debug("Edit Homework :: "+homework.getId());

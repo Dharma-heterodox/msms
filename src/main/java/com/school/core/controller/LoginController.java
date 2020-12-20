@@ -94,6 +94,7 @@ public class LoginController {
     }
     
     @RequestMapping(value={"/verifyOTP"}, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public AuthResponseDto verifyOTP(@RequestBody VerifyOtpDto verifyOtpDto) throws Exception{
     	User user = userService.findUserByMobile(verifyOtpDto.getMobilenumber());
     	System.out.println("--->"+verifyOtpDto.getMobilenumber());

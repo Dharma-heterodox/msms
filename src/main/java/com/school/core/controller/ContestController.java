@@ -40,34 +40,39 @@ public class ContestController {
 	private ContestRegistrationService contestRegistrationService;
 
 	@GetMapping
-	public ResponseObj getAllContestsBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(contestRegistrationService.gteAllRegistrations(schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<ContestRegistrationDto> getAllContestsBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return contestRegistrationService.gteAllRegistrations(schoolId);
 	}
 
 	@GetMapping(value="/grade/{grade}")
-	public ResponseObj getMyContest(@PathVariable("schoolId") Long schoolId,@PathVariable("grade") String grade) {
-		return new ResponseObj(contestService.getMyContest(schoolId, grade),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<ContestDto> getMyContest(@PathVariable("schoolId") Long schoolId,@PathVariable("grade") String grade) {
+		return contestService.getMyContest(schoolId, grade);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseObj getContest(@PathVariable("schoolId") Long schoolId, @PathVariable("id") Long id) {
-		return new ResponseObj(contestService.getContest(id),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public byte[] getContest(@PathVariable("schoolId") Long schoolId, @PathVariable("id") Long id) {
+		return contestService.getContest(id);
 	}
 	
 	@PostMapping
-	public ResponseObj createContest(@PathVariable("schoolId") Long schoolId, @RequestParam("contest") String contest, 
+	@ResponseStatus(HttpStatus.OK)
+	public ContestDto createContest(@PathVariable("schoolId") Long schoolId, @RequestParam("contest") String contest, 
 			@RequestParam("file") MultipartFile file) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule());
 		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		ContestDto contestDto = mapper.readValue(contest, ContestDto.class);
 		contestDto.setActive(true);
-		return new ResponseObj(contestService.createContest(schoolId, contestDto, file),HttpStatus.OK);
+		return contestService.createContest(schoolId, contestDto, file);
 	}
 	
 	@PostMapping(value = "/apply")
-	public ResponseObj applyContest(@PathVariable("schoolId") Long schoolId, @RequestBody ContestRegistrationDto contestRegistrationDto) throws Exception {
-		return new ResponseObj(contestRegistrationService.createRegistration(schoolId, contestRegistrationDto),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public ContestRegistrationDto applyContest(@PathVariable("schoolId") Long schoolId, @RequestBody ContestRegistrationDto contestRegistrationDto) throws Exception {
+		return contestRegistrationService.createRegistration(schoolId, contestRegistrationDto);
 	}
 	
 	@GetMapping(value = "/contesters/download")

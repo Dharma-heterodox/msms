@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.school.core.dto.LeaveRequestDto;
@@ -23,19 +24,22 @@ public class LeaveRequestController {
 	private LeaveRequestService leaveRequestService;
 
 	@GetMapping
-	public ResponseObj getAllLeaveRequestsBySchoolId(@PathVariable("schoolId") Long schoolId) {
-		return new ResponseObj(leaveRequestService.getAllLeaveRequestsBySchoolId(schoolId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<LeaveRequestDto> getAllLeaveRequestsBySchoolId(@PathVariable("schoolId") Long schoolId) {
+		return leaveRequestService.getAllLeaveRequestsBySchoolId(schoolId);
 	}
 	
 	@GetMapping(value = "/student/{studentId}")
-	public ResponseObj getAllLeaveRequestsByStudentId(@PathVariable("schoolId") Long schoolId, @PathVariable("studentId") Long studentId) {
-		return new ResponseObj(leaveRequestService.getAllLeaveRequestsByStudentId(studentId),HttpStatus.OK);
+	@ResponseStatus(HttpStatus.OK)
+	public List<LeaveRequestDto> getAllLeaveRequestsByStudentId(@PathVariable("schoolId") Long schoolId, @PathVariable("studentId") Long studentId) {
+		return leaveRequestService.getAllLeaveRequestsByStudentId(studentId);
 	}
 
 	@PostMapping
-	public ResponseObj createLeaveRequests(@PathVariable("schoolId") Long schoolId, @RequestBody LeaveRequestDto feedBack) {
+	@ResponseStatus(HttpStatus.OK)
+	public LeaveRequestDto createLeaveRequests(@PathVariable("schoolId") Long schoolId, @RequestBody LeaveRequestDto feedBack) {
 		feedBack.setStatus("New");
-		return new ResponseObj(leaveRequestService.createLeaveRequest(schoolId, feedBack),HttpStatus.OK);
+		return leaveRequestService.createLeaveRequest(schoolId, feedBack);
 	}
 
 }

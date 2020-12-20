@@ -35,6 +35,7 @@ public class Employee extends Person {
 	private boolean active;
 	private Long userId;
 	private int subCategory;
+	private int employeeCode;
 	
 	
 	
@@ -116,6 +117,13 @@ public class Employee extends Person {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public int getEmployeeCode() {
+		return employeeCode;
+	}
+	public void setEmployeeCode(int employeeCode) {
+		this.employeeCode = employeeCode;
 	}
 	@Override
 	public int hashCode() {

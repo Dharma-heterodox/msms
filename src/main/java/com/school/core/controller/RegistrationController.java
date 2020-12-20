@@ -21,8 +21,8 @@ public class RegistrationController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(value="/parent")
-	public ResponseObj createParent(@RequestBody ParentDto parentDto) {
-		return new ResponseObj(parentService.createParent(parentDto),HttpStatus.OK);
+	public ParentDto createParent(@RequestBody ParentDto parentDto) {
+		return parentService.createParent(parentDto);
 	}
 
 }

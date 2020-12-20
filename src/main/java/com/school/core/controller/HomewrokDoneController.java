@@ -53,7 +53,8 @@ public class HomewrokDoneController {
 //	Date:15-09-2020
 //	Purpose: To save the finished home work file from students
 	@RequestMapping(value="/save" , method =RequestMethod.POST)
-	public ResponseObj saveStudentHomework(@RequestBody HomeworkDoneDto homeworkDone) throws Exception
+	@ResponseStatus(HttpStatus.OK)
+	public String saveStudentHomework(@RequestBody HomeworkDoneDto homeworkDone) throws Exception
 	{
 		try {
 			logger.debug("saveStudentHomework method called");
@@ -66,7 +67,7 @@ public class HomewrokDoneController {
 		}
 		
 		
-		return new ResponseObj(Constant.HOMEWORK_MSG,HttpStatus.OK);
+		return Constant.HOMEWORK_MSG;
 		
 	}
 	
@@ -74,9 +75,10 @@ public class HomewrokDoneController {
 //	Date:15-09-2020
 //	Purpose: To retrieve all the finished home work for teachers.
 	@RequestMapping(value="/getHomeworks", method =RequestMethod.POST)
-	public ResponseObj getAllForTeacher(@RequestBody HomeworkDoneDto homeworkDone)throws Exception{
+	@ResponseStatus(HttpStatus.OK)
+	public List<HomeworkDoneDto> getAllForTeacher(@RequestBody HomeworkDoneDto homeworkDone)throws Exception{
 		logger.debug("getAllForTeacher method called : "+homeworkDone.getTeacherId()+":"+homeworkDone.getGradeId()+":"+homeworkDone.getSectionId());
-		return new ResponseObj(homewrokDoneService.getAllHomeworkDone(homeworkDone),HttpStatus.OK);
+		return homewrokDoneService.getAllHomeworkDone(homeworkDone);
 		
 	}
 	
@@ -84,9 +86,10 @@ public class HomewrokDoneController {
 //	Date:15-09-2020
 //	Purpose: To retrieve the finished home work for particular teacher and student .
 	@GetMapping(value="/getStudentWork/{homeworkDoneId}")
-	public ResponseObj getOneForTeacher(@PathVariable ("homeworkDoneId") String homeworkDoneId)throws Exception{
+	@ResponseStatus(HttpStatus.OK)
+	public List<String> getOneForTeacher(@PathVariable ("homeworkDoneId") String homeworkDoneId)throws Exception{
 		logger.debug("getOneForTeacher method called : ");
-		return new ResponseObj(homewrokDoneService.getHomeworkDone(homeworkDoneId),HttpStatus.OK);
+		return homewrokDoneService.getHomeworkDone(homeworkDoneId);
 		
 	}
 	
@@ -94,18 +97,20 @@ public class HomewrokDoneController {
 //	Date:19-09-2020
 //	Purpose: To retrieve the finished home work for particular teacher and student .
 	@GetMapping (value="/verified/{homewrokDoneId}/{command}")
-	public ResponseObj homeworkVerified(@PathVariable("homewrokDoneId") Long homewrokDoneId,@PathVariable("command") String command )throws Exception{
+	@ResponseStatus(HttpStatus.OK)
+	public String homeworkVerified(@PathVariable("homewrokDoneId") Long homewrokDoneId,@PathVariable("command") String command )throws Exception{
 		logger.debug("homeworkVerified method called : "+homewrokDoneId+":"+command);
-		return new ResponseObj(homewrokDoneService.verifyHomework(homewrokDoneId, command),HttpStatus.OK);
+		return homewrokDoneService.verifyHomework(homewrokDoneId, command);
 	}
 	
 //	Created By : Dharma
 //	Date:15-09-2020
 //	Purpose: To retrieve all the finished home work for teachers.
 	@RequestMapping(value="/homeworkND", method =RequestMethod.POST)
-	public ResponseObj getStudentListND(@RequestBody HomeworkDoneDto homeworkDone)throws Exception{
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Integer> getStudentListND(@RequestBody HomeworkDoneDto homeworkDone)throws Exception{
 		logger.debug("getStudentListND method called : "+homeworkDone.getTeacherId()+":"+homeworkDone.getGradeId()+":"+homeworkDone.getSectionId());
-		return new ResponseObj(homewrokDoneService.studentsNotDoneHW(homeworkDone.getHomeworkDate(), homeworkDone.getSectionId(), homeworkDone.getSubjectId()),HttpStatus.OK);
+		return homewrokDoneService.studentsNotDoneHW(homeworkDone.getHomeworkDate(), homeworkDone.getSectionId(), homeworkDone.getSubjectId());
 		
 	}
 

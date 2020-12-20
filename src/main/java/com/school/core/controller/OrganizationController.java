@@ -31,14 +31,15 @@ public class OrganizationController {
 	private OrganizationService organizationService;
 	
 	@PostMapping
-    public ResponseObj createOrganization(@Valid @RequestBody OrganizationDto organization, BindingResult bindingResult) {
-		return new ResponseObj(organizationService.saveOrganization(organization),HttpStatus.CREATED); 
+	@ResponseStatus(HttpStatus.OK)
+    public OrganizationDto createOrganization(@Valid @RequestBody OrganizationDto organization, BindingResult bindingResult) {
+		return organizationService.saveOrganization(organization); 
     }
 	
 	@GetMapping(value = "/{orgId}" )
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseObj createSection(@PathVariable("orgId") Long orgId)throws Exception {
-		return new ResponseObj(organizationService.getOrganizationDetail(orgId),HttpStatus.OK);
+	public OrganizationDto createSection(@PathVariable("orgId") Long orgId)throws Exception {
+		return organizationService.getOrganizationDetail(orgId);
 	}
 	
 	@RequestMapping(value={"/api/users/{email}"}, method = RequestMethod.GET)
