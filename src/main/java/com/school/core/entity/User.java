@@ -54,6 +54,10 @@ public class User extends BaseEntity {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_organization", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
     private Set<Organization> organizations;
+    @Column(name = "login_id")
+    private String loginId;
+    @Column(name = "loggedin",columnDefinition = "default false")
+    private boolean loggedIn;
     
 	public Long getId() {
 		return id;
@@ -134,6 +138,19 @@ public class User extends BaseEntity {
 	public void setOrganizations(Set<Organization> organizations) {
 		this.organizations = organizations;
 	}
+	
+	public String getLoginId() {
+		return loginId;
+	}
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -174,5 +191,7 @@ public class User extends BaseEntity {
 		return "User [id=" + id + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", active=" + active + "]";
 	}
+	
+	
 
 }

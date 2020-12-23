@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.school.core.entity.Subject;
+import com.school.core.repo.subject.SubjectRepoCustom;
 
 @Repository
-public interface SubjectRepo extends JpaRepository<Subject, Long> {
+public interface SubjectRepo extends JpaRepository<Subject, Long>,SubjectRepoCustom {
 	
 	List<Subject> findAllBySchoolId(Long schoolId);
 	@Query(

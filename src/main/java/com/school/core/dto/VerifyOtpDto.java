@@ -10,6 +10,7 @@ public class VerifyOtpDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String mobilenumber;
+	private String userCode;
 	private String otp;
 	
 	public String getMobilenumber() {
@@ -24,5 +25,13 @@ public class VerifyOtpDto implements Serializable {
 	public void setOtp(String otp) {
 		this.otp = otp;
 	}
+	public String getUserCode() {
+		return userCode;
+	}
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+	
+	
 
 }

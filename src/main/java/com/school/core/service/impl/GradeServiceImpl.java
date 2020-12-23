@@ -1,6 +1,7 @@
 package com.school.core.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,6 +47,7 @@ public class GradeServiceImpl implements GradeService {
 				gradeList.add(gradeDto);
 			}
 		}
+		Collections.sort(gradeList, Collections.reverseOrder());
 		return gradeList;
 	}
 

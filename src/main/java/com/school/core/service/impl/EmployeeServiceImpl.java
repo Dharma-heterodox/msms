@@ -47,6 +47,7 @@ import com.school.core.repo.EmployeeRepo;
 import com.school.core.repo.EmployeeRequestRepo;
 import com.school.core.service.AddressService;
 import com.school.core.service.EmployeeService;
+import com.school.core.service.FileUploads;
 import com.school.core.service.GradeService;
 import com.school.core.service.SectionService;
 import com.school.core.service.SubjectService;
@@ -58,7 +59,7 @@ import com.school.core.util.Roles;
 import com.school.core.util.StringUtil;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
@@ -503,9 +504,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 //		}
 //	}
 	
-	private boolean isEmpty(@Nullable String str) {
-		return str == null || "".equals(str.trim());
-	}
 	
 	
 }

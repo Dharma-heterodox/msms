@@ -129,7 +129,7 @@ public class Employee extends Person {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
+//		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((subjectTaking == null) ? 0 : subjectTaking.hashCode());
 		return result;
@@ -143,21 +143,21 @@ public class Employee extends Person {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
+//		if (category == null) {
+//			if (other.category != null)
+//				return false;
+//		} else if (!category.equals(other.category))
+//			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (subjectTaking == null) {
-			if (other.subjectTaking != null)
-				return false;
-		} else if (!subjectTaking.equals(other.subjectTaking))
-			return false;
+//		if (subjectTaking == null) {
+//			if (other.subjectTaking != null)
+//				return false;
+//		} else if (!subjectTaking.equals(other.subjectTaking))
+//			return false;
 		return true;
 	}
 	@Override

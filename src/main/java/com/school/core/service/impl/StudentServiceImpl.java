@@ -49,6 +49,7 @@ import com.school.core.repo.StudentRepo;
 import com.school.core.repo.UserRequestRepo;
 import com.school.core.repo.grade.GradeRepo;
 import com.school.core.repo.section.SectionRepo;
+import com.school.core.service.FileUploads;
 import com.school.core.service.GradeService;
 import com.school.core.service.OrganizationService;
 import com.school.core.service.ParentService;
@@ -61,7 +62,7 @@ import com.school.core.util.ErrorCodeV;
 import com.school.core.util.StringUtil;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl implements StudentService,FileUploads {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -492,12 +493,6 @@ public class StudentServiceImpl implements StudentService {
 
 	}
 	
-	public void createStudentProfile(List<Long> ids)throws Exception{
-		
-	}
 
 
-	private boolean isEmpty(@Nullable String str) {
-		return str == null || "".equals(str.trim());
-	}
 }

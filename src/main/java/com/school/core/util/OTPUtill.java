@@ -3,12 +3,13 @@ package com.school.core.util;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.school.core.dto.OneTimePasswordDto;
 
 public final class OTPUtill {
 	
-	private static Map<String,OneTimePasswordDto> otp=new HashMap<String,OneTimePasswordDto>();
+	private static Map<String,OneTimePasswordDto> otp=new ConcurrentHashMap<String,OneTimePasswordDto>();
 	
 	public static OneTimePasswordDto saveOTP(String mobileNo,OneTimePasswordDto otpObj)throws Exception{
 		otp.put(mobileNo,otpObj);

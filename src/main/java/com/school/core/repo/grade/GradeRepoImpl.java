@@ -21,7 +21,7 @@ public class GradeRepoImpl implements GradeRepoCustom{
 		@Override
 	    public Map<String, Long> getGradeMap(Long schoolId)throws Exception{
 	    	Map<String, Long> grades=new HashMap<String, Long>();
-			TypedQuery<Object[]> query=em.createQuery("SELECT gr.grade,gr.id FROM Grade gr where gr.schoolId=:schoolId", Object[].class);
+			TypedQuery<Object[]> query=em.createQuery("SELECT gr.grade,gr.id FROM Grade gr where gr.schoolId=:schoolId ORDER BY gr.id ASC", Object[].class);
 			query.setParameter("schoolId", schoolId);
 			List<Object[]> results=query.getResultList();
 			results.forEach(h -> {

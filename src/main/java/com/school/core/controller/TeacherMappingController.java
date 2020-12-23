@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.school.core.dto.AuthorizeDto;
 import com.school.core.dto.ResponseObj;
 import com.school.core.dto.TeacherMappingDto;
 import com.school.core.service.TeacherMappingService;
@@ -51,9 +52,15 @@ public class TeacherMappingController {
 		return teacherMappingService.getAllTeacherMappingByStudentId(schoolId, studentId, null);
 	}
 	
-//	@PostMapping(value="/upload")
-//	@ResponseStatus(HttpStatus.OK)
-//	public int uploadMappings(@PathVariable("schoolId") Long schoolId,@RequestParam("file") MultipartFile file)throws Exception{
-//		return teacherMappingService.upload(schoolId, file);
-//	}
+	@PostMapping(value="/upload")
+	@ResponseStatus(HttpStatus.OK)
+	public int uploadMappings(@PathVariable("schoolId") Long schoolId,@RequestParam("file") MultipartFile file)throws Exception{
+		return teacherMappingService.upload(schoolId, file);
+	}
+	
+	@PostMapping(value="/approve")
+	@ResponseStatus(HttpStatus.OK)
+	public int approveMappings(@PathVariable("schoolId") Long schoolId,@RequestBody AuthorizeDto dto)throws Exception{
+		return teacherMappingService.approveMappings(schoolId, dto.getIds());
+	}
 }
