@@ -47,7 +47,7 @@ public class GradeServiceImpl implements GradeService {
 				gradeList.add(gradeDto);
 			}
 		}
-		Collections.sort(gradeList, Collections.reverseOrder());
+		gradeList.sort((GradeDto g1,GradeDto g2)->g1.getGrade().compareTo(g2.getGrade()));
 		return gradeList;
 	}
 
