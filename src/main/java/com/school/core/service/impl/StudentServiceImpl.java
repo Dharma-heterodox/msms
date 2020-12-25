@@ -266,12 +266,14 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 			DataFormatter objDefaultFormat = new DataFormatter();
 			FormulaEvaluator objFormulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
 			UserRequest request = null;
+			rowLevel:
 			for (int i = 1; i < length; i++) {
 				try {
 					Row row = datatypeSheet.getRow(i);
 					if (row == null)
 						break;
 					request = new UserRequest();
+					cellLevel:
 					for (int j = 1; j < row.getLastCellNum(); j++) {
 						String cellValueStr =null;
 						try {
@@ -279,6 +281,8 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 							objFormulaEvaluator.evaluate(currentCell); // This will evaluate the cell, And any type of cell
 																		// will return string value
 							cellValueStr = objDefaultFormat.formatCellValue(currentCell, objFormulaEvaluator).trim();
+							if(!isEmpty(cellValueStr) && "END".equals(cellValueStr))
+			        	    	break rowLevel;
 							switch (j) {
 							case 1:
 								if (isEmpty(cellValueStr)) {
@@ -421,7 +425,7 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 								}
 								break;
 							default:
-								break;
+								break cellLevel;
 							}
 						}catch(Exception jex) {
 							log.error("Row :"+i+" Cell :" + j + " : "+cellValueStr+" - " + jex.getMessage());

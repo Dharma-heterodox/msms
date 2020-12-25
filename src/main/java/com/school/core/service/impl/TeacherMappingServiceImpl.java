@@ -242,20 +242,22 @@ public class TeacherMappingServiceImpl implements TeacherMappingService,FileUplo
 			grSubject=subjectRepo.getGradeSubjectMap(schoolId);
 			employeeMap=employeeRepo.getEmployeeMap(schoolId);
 	        Sheet datatypeSheet = workbook.getSheetAt(0);
-	        int length = 8;
+	        int length = datatypeSheet.getLastRowNum();
 	        DataFormatter objDefaultFormat = new DataFormatter();
 	        FormulaEvaluator objFormulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
+	        rowLevel:
 	        for(int i=1; i<length; i++) {
 	        	Row row = datatypeSheet.getRow(i);
 	        	if(row == null)
 	        		break;
 	        	TeacherMappingRequest request=new TeacherMappingRequest();
-	        	for(int j=1; j<6; j++) {
+	        	cellLevel:
+	        	for(int j=1; j<row.getLastCellNum(); j++) {
 	        		Cell currentCell = row.getCell(j);
 	        		objFormulaEvaluator.evaluate(currentCell); // This will evaluate the cell, And any type of cell will return string value
 	        	    String cellValueStr = objDefaultFormat.formatCellValue(currentCell,objFormulaEvaluator).trim();
 	        	    if(!isEmpty(cellValueStr) && "END".equals(cellValueStr))
-	        	    	break;
+	        	    	break rowLevel;
 	        	    try {
 	        	    	switch(j) {
 		        		case 1:
@@ -278,20 +280,21 @@ public class TeacherMappingServiceImpl implements TeacherMappingService,FileUplo
 		        			request.setSubjectId(grSubject.get(request.getGradeId()+"-"+cellValueStr));
 		        			break;
 		        		case 6:
-		        			request.setClassTeacher(cellValueStr.equals(1) ? true:false);
+		        			request.setClassTeacher(cellValueStr.equals("1") ? true:false);
 		        			break;	
 		        		
 	        			default:
-	        				break;
+	        				break cellLevel;
 	        		}
-	        	    	request.setAcademicYear(Constant.currentAcademicYear);
-	        	    	request.setRequestStatus(Constant.REQUEST_SUCCESS);
-						request.setSchoolId(schoolId);
-						requestList.add(request);
+	        	    	
 	        		}catch(Exception jex) {
 	        			logger.error("Row :"+i+" Cell :" + j + " : "+cellValueStr+" - " + jex.getMessage());
 	        		}
 	            }
+	        	request.setAcademicYear(Constant.currentAcademicYear);
+    	    	request.setRequestStatus(Constant.REQUEST_SUCCESS);
+				request.setSchoolId(schoolId);
+				requestList.add(request);
 	        }
 	    } catch (FileNotFoundException e) {
 	        e.printStackTrace();

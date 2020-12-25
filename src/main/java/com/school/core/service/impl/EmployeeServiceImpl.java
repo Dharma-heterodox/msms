@@ -204,16 +204,20 @@ public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 	        DataFormatter objDefaultFormat = new DataFormatter();
 	        FormulaEvaluator objFormulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
 	        mobiles=userService.getMobileNo();
+	        rowLevel:
 	        for(int i=1; i<length; i++) {
 	        	Row row = datatypeSheet.getRow(i);
 	        	if(row == null)
 	        		break;
 	        	EmployeeRequest request=new EmployeeRequest();
+	        	cellLevel:
 	        	for(int j=1; j<row.getLastCellNum(); j++) {
 	        		Cell currentCell = row.getCell(j);
 	        		objFormulaEvaluator.evaluate(currentCell); // This will evaluate the cell, And any type of cell will return string value
 	        	    String cellValueStr = objDefaultFormat.formatCellValue(currentCell,objFormulaEvaluator).trim();
 	        	    try {
+	        	    	if(!isEmpty(cellValueStr) && "END".equals(cellValueStr))
+		        	    	break rowLevel;
 	        	    	switch(j) {
 		        		case 1:
 		        			if(isEmpty(cellValueStr)) {
@@ -429,19 +433,20 @@ public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 		        			}
 		        			break;
 	        			default:
-	        				break;
+	        				break cellLevel;
 	        		}
-	        	    	if (request.getErrors().size() > 0) {
-							request.setRequestStatus(Constant.REQUEST_FAILED);
-						} else {
-							request.setRequestStatus(Constant.REQUEST_SUCCESS);
-						}
-						request.setSchoolId(schoolId);
-						requestList.add(request);
+	        	    	
 	        		}catch(Exception jex) {
 	        			log.error("Row :"+i+" Cell :" + j + " : "+cellValueStr+" - " + jex.getMessage());
 	        		}
 	            }
+	        	if (request.getErrors().size() > 0) {
+					request.setRequestStatus(Constant.REQUEST_FAILED);
+				} else {
+					request.setRequestStatus(Constant.REQUEST_SUCCESS);
+				}
+				request.setSchoolId(schoolId);
+				requestList.add(request);
 	        }
 	    } catch (FileNotFoundException e) {
 	        e.printStackTrace();
