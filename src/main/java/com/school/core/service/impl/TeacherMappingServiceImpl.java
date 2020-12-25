@@ -116,26 +116,39 @@ public class TeacherMappingServiceImpl implements TeacherMappingService,FileUplo
 	@Override
 	public List<TeacherMappingDto> findMappedTeachers(Long schoolId, Long gradeId, Long sectionId, String academicYear) {
 		List<TeacherMapping> teacherMappings = teacherMappingRepo.findMappedTeachers(schoolId, gradeId, sectionId, academicYear);
-		if (teacherMappings == null)
+		Map<Long,String> subjectIdMap=null;
+		List<TeacherMappingDto> teachers = new ArrayList<TeacherMappingDto>();
+		try {
+			if (teacherMappings == null)
 				return null;
 		List<TeacherMappingDto> mappings = teacherMappings.stream().map(a -> modelMapper.map(a, TeacherMappingDto.class)).collect(Collectors.toList());
-		List<TeacherMappingDto> teachers = new ArrayList<TeacherMappingDto>();
+		
 		if(!CollectionUtils.isEmpty(mappings)) {
-			List<SubjectDto> subjects = subjectService.findAllBySchoolIdAndGradeId(schoolId, gradeId);
+			subjectIdMap=subjectRepo.getSubjectIdMap(schoolId);
+//			List<SubjectDto> subjects = subjectService.findAllBySchoolIdAndGradeId(schoolId, gradeId);
 			for(TeacherMappingDto mapping : mappings) {
-				for(SubjectDto subject: subjects) {
-					if(mapping.getSubjectId().equals(subject.getId())) {
-						mapping.setSubject(subject.getSubjectName());
-						break;
-					}
-				}
+//				for(SubjectDto subject: subjects) {
+//					if(mapping.getSubjectId().equals(subject.getId())) {
+//						mapping.setSubject(subjectIdMap.get(mapping.getSubjectId()));
+//						break;
+//					}
+//				}
+				mapping.setSubject(subjectIdMap.get(mapping.getSubjectId()));
 				EmployeeDto employee = employeeService.getEmployee(mapping.getTeacherId());
 				String lastName = employee.getLastName() != null ? employee.getLastName(): "";
 				String teacherName = employee.getFirstName() + " " + lastName;
-				mapping.setTeacherName(teacherName);
+				if(employee.getDisplayName()!=null && !employee.getDisplayName().equals("")) {
+					mapping.setTeacherName(employee.getDisplayName());
+				}else {
+					mapping.setTeacherName(teacherName);
+				}
 				teachers.add(mapping);
 			}
 		}
+		}catch(Exception ex) {
+			
+		}
+		
 		return teachers;
 	}
 	
@@ -264,6 +277,9 @@ public class TeacherMappingServiceImpl implements TeacherMappingService,FileUplo
 		        			request.setSubject(cellValueStr);
 		        			request.setSubjectId(grSubject.get(request.getGradeId()+"-"+cellValueStr));
 		        			break;
+		        		case 6:
+		        			request.setClassTeacher(cellValueStr.equals(1) ? true:false);
+		        			break;	
 		        		
 	        			default:
 	        				break;
@@ -326,6 +342,7 @@ public class TeacherMappingServiceImpl implements TeacherMappingService,FileUplo
 			mapping.setSubjectId(h.getSubjectId());
 			mapping.setSource(h.getSource());
 			mapping.setTeacherId(h.getTeacherId());
+			mapping.setClassTeacher(h.isClassTeacher());
 			mappingList.add(mapping);
 		});
 		return mappingList;

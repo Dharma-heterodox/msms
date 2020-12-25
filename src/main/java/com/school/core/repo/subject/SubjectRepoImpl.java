@@ -29,5 +29,17 @@ public class SubjectRepoImpl implements SubjectRepoCustom{
 			});
 			return grSection;
 		}
+	 
+	 @Override
+	    public Map<Long,String> getSubjectIdMap(Long schoolId)throws Exception{
+	    	Map<Long, String> grSection=new HashMap<Long, String>();
+			TypedQuery<Object[]> query=em.createQuery("SELECT sc.id,sc.subjectName FROM Subject sc where sc.schoolId=:schoolId", Object[].class);
+			query.setParameter("schoolId", schoolId);
+			List<Object[]> results=query.getResultList();
+			results.forEach(h -> {
+				grSection.put((Long)h[0],(String)h[1]);
+			});
+			return grSection;
+		}
 
 }
