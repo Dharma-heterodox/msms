@@ -21,6 +21,7 @@ public class Grade extends BaseEntity {
 	private String grade;
 	@Column(length = 30)
 	private String title;
+	@Column(length=100)
 	private String description;
 	private Long schoolId;
 	private boolean active;

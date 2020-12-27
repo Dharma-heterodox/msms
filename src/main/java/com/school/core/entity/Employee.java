@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "employee",
-uniqueConstraints = @UniqueConstraint(columnNames= {"UserId","mobile"}))
+uniqueConstraints = @UniqueConstraint(columnNames= {"employeeCode"}))
 public class Employee extends Person {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +30,7 @@ public class Employee extends Person {
 	@Lob
     private String address;
 	private LocalDate dateOfJoin;
+	@Column(length=50)
 	private String marritalStatus;
 	private Long schoolId;
 	private boolean active;

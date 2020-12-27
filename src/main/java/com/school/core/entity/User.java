@@ -29,22 +29,27 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    @Column(name = "user_name")
+    @Column(name = "user_name",length=50)
     @Length(min = 4, message = "*Your user name must have at least 4 characters")
     @NotEmpty(message = "*Please provide a user name")
     private String userName;
+    @Column(length=50)
     private String userType;
+    @Column(length=50)
     private String email;
+    @Column(length=50)
     private String mobile;
+    @Column(length=50)
     private String emergencyContactNo;
+    @Column(length=50)
     private String contactNo;
     @Column(name = "password")
     @Length(min = 5, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     private String password;
-    @Column(name = "first_name")
+    @Column(name = "first_name",length=50)
     private String firstName;
-    @Column(name = "last_name")
+    @Column(name = "last_name",length=50)
     private String lastName;
     @Column(name = "active")
     private Boolean active;
@@ -54,9 +59,9 @@ public class User extends BaseEntity {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_organization", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
     private Set<Organization> organizations;
-    @Column(name = "login_id")
+    @Column(name = "login_id",length=50)
     private String loginId;
-    @Column(name = "loggedin",columnDefinition = "default false")
+    @Column(name = "loggedin")
     private boolean loggedIn;
     
 	public Long getId() {

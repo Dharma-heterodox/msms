@@ -19,6 +19,7 @@ public class LeaveRequest extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "leave_request_id")
     private Long id; 
+	@Column(length=100)
 	private String title;
 	private String description;
 	private Long studentId;
@@ -26,6 +27,7 @@ public class LeaveRequest extends BaseEntity {
 	private LocalDate fromDate;
 	private LocalDate toDate;
 	private Long schoolId;
+	@Column(length=50)
 	private String status;
 	
 	public Long getId() {

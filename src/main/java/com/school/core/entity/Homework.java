@@ -20,6 +20,7 @@ public class Homework extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "homework_id")
     private Long id; 
+	@Column(length=100)
 	private String title;
 	@Lob
 	private String description;

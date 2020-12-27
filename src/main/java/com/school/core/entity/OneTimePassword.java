@@ -20,12 +20,15 @@ public class OneTimePassword extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "otp_id")
     private Long id;
+	@Column(length=50)
 	private String mobile;
 	private String sender;
 	private String message;
+	@Column(length=50)
 	private String code;
 	private LocalDateTime expiryTime;
 	private Integer attempt;
+	@Column(length=50)
 	private String status;
 	
 	public Long getId() {

@@ -25,8 +25,11 @@ public class Contest extends BaseEntity {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private Long gradeId;
+	@Column(length=50)
 	private String grade;
+	@Column(length=50)
 	private String section;
+	@Column(length=50)
 	private String mobile;
 	private Long schoolId;
 	@Lob

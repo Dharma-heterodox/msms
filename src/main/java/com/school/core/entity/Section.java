@@ -16,6 +16,7 @@ public class Section extends BaseEntity {
     @Column(name = "section_id")
     private Long id;
 	private Long gradeId;
+	@Column(length=50)
 	private String section;
 	private Long schoolId;
 	private boolean active;

@@ -30,6 +30,7 @@ public class Feedback extends BaseEntity {
 	private String comment;
 	private String feedbackBy;
 	private Long feedbackerId;
+	@Column(length=50)
 	private String status;
 	private Long schoolId;
 	private boolean active;

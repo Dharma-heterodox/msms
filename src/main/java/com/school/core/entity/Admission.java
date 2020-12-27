@@ -20,19 +20,26 @@ public class Admission extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admission_id")
     private Long id; 
+	@Column(length=50)
 	private String studentName;
+	@Column(length=50)
 	private String grade;
 	private LocalDate dob;
 	private String applyFor;
 	private String previousSchool;
+	@Column(length=50)
 	private String fatherName;
 	private String fatherOccupation;
+	@Column(length=50)
 	private String motherName;
+	@Column(length=50)
 	private String mobile;
+	@Column(length=50)
 	private String alternateMobile;
 	private boolean termsAndConditions;
 	private Long schoolId;
 	private boolean active;
+	@Column(length=50)
 	private String status;
 	
 	public Long getId() {

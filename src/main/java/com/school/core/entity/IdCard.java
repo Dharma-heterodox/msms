@@ -14,10 +14,15 @@ public class IdCard extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_card_id")
     private Long id;
+	@Column(length=50)
 	private String idNumber;
+	@Column(length=50)
 	private String displayName;
+	@Column(length=50)
 	private String dob;
+	@Column(length=50)
 	private String bloodGroup;
+	@Column(length=50)
 	private String emergencyContactNo;
 	
 	public Long getId() {

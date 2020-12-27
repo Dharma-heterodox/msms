@@ -24,10 +24,15 @@ public class Address extends BaseEntity {
 	private String addressType;
 	private String addressLine1;
 	private String addressLine2;
+	@Column(length=50)
 	private String city;
+	@Column(length=50)
 	private String state;
+	@Column(length=50)
 	private String country;
+	@Column(length=50)
 	private String countryCode;
+	@Column(length=50)
 	private String pincode;
 	private String landmark;
 	private Long organizationId;
