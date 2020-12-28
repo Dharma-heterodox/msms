@@ -335,7 +335,7 @@ public class TeacherMappingServiceImpl implements TeacherMappingService,FileUplo
 			TeacherMapping mapping=new TeacherMapping();
 			mapping.setAcademicYear(Constant.currentAcademicYear);
 			mapping.setActive(true);
-			mapping.setClassTeacher(false);
+			mapping.setClassTeacher(h.isClassTeacher());
 			mapping.setGrade(h.getGrade());
 			mapping.setGradeId(h.getGradeId());
 			mapping.setSchoolId(h.getSchoolId());
