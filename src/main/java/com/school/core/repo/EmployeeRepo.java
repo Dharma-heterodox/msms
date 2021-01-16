@@ -1,6 +1,7 @@
 package com.school.core.repo;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,8 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long>,EmployeeRepo
 	@Query(
 			  value = "SELECT employee FROM Employee employee where employee.userId = ?1 and employee.active=true")
 	Employee getEmployeeByUserId(Long userId);
+	
+	@Query(value="SELECT employee.employeeCode FROM Employee employee WHERE employee.schoolId= ?1")
+	Set<Integer> getAllEmployeeId(Long schoolId);
 	
 }

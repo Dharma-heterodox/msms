@@ -38,8 +38,8 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
     
-    public User findUserByMobile(String mobile) {
-        return userRepository.findByMobile(mobile);
+    public User findUserByMobile(String mobile,int loginId) {
+        return userRepository.findByMobile(mobile,loginId);
     }
 
     public User findUserByUserName(String userName) {

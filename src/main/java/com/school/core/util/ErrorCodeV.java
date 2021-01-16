@@ -5,6 +5,7 @@ public interface ErrorCodeV {
 	String NAME_REGEX="name should be less than 30 alphabets only";
 	String STUDID_NOTEMPTY="Student ID should not be empty";
 	String STUDID_REGEX="Student ID should be only numeric";
+	String STUDID_FOUND="Student ID already found";
 	String GENDER_NOTEMPTY="Gender Should not be empty";
 	String GENDER_REGEX="Gender should be less than 8 alphabets only";
 	String DOB_NOTEMPTY="DOB Should not be empty";
@@ -30,6 +31,7 @@ public interface ErrorCodeV {
 	//Employee Error COde
 	String EMPID_NOTEMPTY="Employee ID should not be empty";
 	String EMPID_REGEX="Employee ID Should be digits";
+	String EMPID_FOUND="Employee ID already found";
 	String ACCOUNTNO_NOTEMPTY="Account No should not be empty";
 	String GPAY_NOTEMPTY="Gross pay should not be empty";
 	String GPAY_REGEX="Gross pay should be numeric";

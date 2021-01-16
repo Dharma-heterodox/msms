@@ -196,6 +196,7 @@ public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 	private List<EmployeeRequest> getEmployeesFromfile(long schoolId,MultipartFile file)throws Exception {
 		Workbook workbook = null;
 		Set<String> mobiles=null;
+		Set<Integer> empIds=null;
 		List<EmployeeRequest> requestList=new ArrayList<EmployeeRequest>();
 		try {
 	        workbook = new XSSFWorkbook(file.getInputStream());
@@ -204,9 +205,11 @@ public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 	        DataFormatter objDefaultFormat = new DataFormatter();
 	        FormulaEvaluator objFormulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
 	        mobiles=userService.getMobileNo();
+	        empIds=employeeRepo.getAllEmployeeId(schoolId);
 	        rowLevel:
 	        for(int i=1; i<length; i++) {
 	        	Row row = datatypeSheet.getRow(i);
+	        	boolean empIdFound=false;
 	        	if(row == null)
 	        		break;
 	        	EmployeeRequest request=new EmployeeRequest();
@@ -224,6 +227,9 @@ public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 		        				request.addErrorCode(new EmployeeReqErrors(ErrorCodeV.EMPID_NOTEMPTY));
 		        			}else if(!cellValueStr.matches(Constant.NUMBER_REGEX)) {
 		        				request.addErrorCode(new EmployeeReqErrors("EMP id "+ErrorCodeV.NO_REGEX));
+		        			}else if(empIds.contains(Integer.valueOf(cellValueStr))){
+		        				empIdFound=true;
+		        				request.addErrorCode(new EmployeeReqErrors(ErrorCodeV.EMPID_FOUND));
 		        			}else {
 		        				request.setEmployeeId(Integer.valueOf(cellValueStr));
 		        			}
@@ -384,7 +390,7 @@ public class EmployeeServiceImpl implements EmployeeService,FileUploads {
 		        				request.addErrorCode(new EmployeeReqErrors(ErrorCodeV.MOBILE_NOTEMPTY));
 		        			}else if(!cellValueStr.matches(Constant.MOBILE_REGEX)) {
 		        				request.addErrorCode(new EmployeeReqErrors(ErrorCodeV.MOBILE_REGEX));
-		        			}else if(mobiles.contains(cellValueStr)){
+		        			}else if(empIdFound && mobiles.contains(cellValueStr)){
 		        				request.addErrorCode(new EmployeeReqErrors(ErrorCodeV.MOBILE_FOUND));
 		        			}else {
 		        				request.setMobile(cellValueStr);

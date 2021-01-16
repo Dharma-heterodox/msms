@@ -85,7 +85,7 @@ public class LoginController {
     @RequestMapping(value={"/login"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String login(@RequestBody LoginDto login) throws Exception{
-    	User user = userService.findUserByMobile(login.getMobilenumber());
+    	User user = userService.findUserByMobile(login.getMobilenumber(),login.getLoginId());
     	if(user == null) {
     		throw new ValidationException("User not found");
     	}
@@ -96,7 +96,7 @@ public class LoginController {
     @RequestMapping(value={"/verifyOTP"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public AuthResponseDto verifyOTP(@RequestBody VerifyOtpDto verifyOtpDto) throws Exception{
-    	User user = userService.findUserByMobile(verifyOtpDto.getMobilenumber());
+    	User user = userService.findUserByMobile(verifyOtpDto.getMobilenumber(),verifyOtpDto.getLoginId());
     	System.out.println("--->"+verifyOtpDto.getMobilenumber());
     	if(user == null) {
     		throw new ValidationException("User not found");

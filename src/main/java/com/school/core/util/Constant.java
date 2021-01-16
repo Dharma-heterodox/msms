@@ -11,6 +11,8 @@ public interface Constant {
 	public String STATUS_VERIFIED= "Verified";
 	public String SMS_SENDER= "MSMSTJ";
 	
+	public String DEFAULT_PASSWORD= "Password$";
+	
 	
 	
 	public String NOTIFICATION_TYPE_SMS = "SMS";

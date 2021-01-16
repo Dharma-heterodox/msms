@@ -1,6 +1,7 @@
 package com.school.core.repo;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,7 @@ public interface StudentRepo extends JpaRepository<Student, Long> {
 	
 	@Query(value="SELECT student FROM Student student WHERE student.id NOT IN (:ids)")
 	List<Student> findStudentsHWND(@Param("ids")List<Long> studentId);
+	
+	@Query(value="SELECT student.studId from Student student where student.schoolId = ?1")
+	Set<Integer> getAllStudentsId(Long schoolId);
 }

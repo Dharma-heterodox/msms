@@ -10,6 +10,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +56,9 @@ public class UserRequestServiceImpl implements UserRequestService{
 	@Autowired
 	private EmployeeRepo empRepo;
 	
+	@Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	private Logger logger = LoggerFactory.getLogger(HomeworkDoneServiceImpl.class);
 
 	@Override
@@ -69,7 +73,7 @@ public class UserRequestServiceImpl implements UserRequestService{
 		try {
 			requestedUsers=userRequestRepo.getStudentParentReq(schoolId);
 //			requestedUsers=userRequestRepo.getStudentParentReq(ids);
-			userList=userRepo.saveAll(getUserObject(requestedUsers));
+			userList=userRepo.saveAll(getStuUserObject(requestedUsers));
 			parentList=parentRepo.saveAll(getParents(userList, requestedUsers));
 			if(parentList.size()>0) {
 				result=userRequestRepo.updateReqStatus(Constant.REQUEST_APPROVED,ids);
@@ -82,7 +86,7 @@ public class UserRequestServiceImpl implements UserRequestService{
 		return result;
 	}
 	
-	private List<User> getUserObject(List<UserRequest> userReqList) throws Exception{
+	private List<User> getStuUserObject(List<UserRequest> userReqList) throws Exception{
 		List<User> userList=new ArrayList<User>();
 		Set<Role> role=getParentRole();
 		try {
@@ -93,11 +97,12 @@ public class UserRequestServiceImpl implements UserRequestService{
 				user.setEmergencyContactNo(h.getAlternateMobile());
 				user.setFirstName(h.getMotherName());
 				user.setMobile(h.getMobile());
-				user.setPassword("$TESTONE");
+				user.setPassword(bCryptPasswordEncoder.encode(Constant.DEFAULT_PASSWORD));
 				user.setRoles(role);
 				user.setUserName(h.getMotherName());
 				user.setUserType("");
 				user.setLastName(h.getFatherName());
+				user.setLoginId(h.getStudId());
 				userList.add(user);
 			});
 		}catch(Exception ex) {
@@ -211,11 +216,12 @@ public class UserRequestServiceImpl implements UserRequestService{
 				user.setEmergencyContactNo(h.getAlternateMobile());
 				user.setFirstName(h.getEmployeeName());
 				user.setMobile(h.getMobile());
-				user.setPassword("$TESTONE");
+				user.setPassword(bCryptPasswordEncoder.encode(Constant.DEFAULT_PASSWORD));
 				user.setRoles(getRoleEntity(h.getTypeOrder(),roleMap));
 				user.setUserName(h.getEmployeeName());
 				user.setUserType("");
 				user.setLastName(h.getEmployeeName());
+				user.setLoginId(h.getEmployeeId());
 				userList.add(user);
 			});
 		}catch(Exception ex) {

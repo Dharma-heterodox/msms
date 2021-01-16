@@ -13,8 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findByUserName(String userName);
     @Query(
-			  value = "SELECT user FROM User user WHERE user.mobile = ?1 and user.active = true")
-    User findByMobile(String mobile);
+			  value = "SELECT user FROM User user WHERE user.mobile = ?1 and user.loginId = ?2 and user.active = true")
+    User findByMobile(String mobile,int loginId);
     
     @Query(
 			  value = "SELECT user.mobile FROM User user WHERE user.active = true")

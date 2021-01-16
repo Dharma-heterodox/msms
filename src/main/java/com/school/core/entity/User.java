@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "user_master",
-uniqueConstraints = @UniqueConstraint(columnNames= {"mobile"}))
+uniqueConstraints = @UniqueConstraint(columnNames= {"mobile","login_id"}))
 public class User extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -59,9 +59,9 @@ public class User extends BaseEntity {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_organization", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
     private Set<Organization> organizations;
-    @Column(name = "login_id",length=50)
-    private String loginId;
-    @Column(name = "loggedin")
+    @Column(name = "login_id")
+    private int loginId;
+    @Column(name = "loggedin",columnDefinition = "boolean default false")
     private boolean loggedIn;
     
 	public Long getId() {
@@ -144,10 +144,10 @@ public class User extends BaseEntity {
 		this.organizations = organizations;
 	}
 	
-	public String getLoginId() {
+	public int getLoginId() {
 		return loginId;
 	}
-	public void setLoginId(String loginId) {
+	public void setLoginId(int loginId) {
 		this.loginId = loginId;
 	}
 	public boolean isLoggedIn() {

@@ -256,11 +256,13 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 		Map<String, Long> gradeMap = null;
 		Map<String,Long> grSection=null;
 		Set<String> mobiles=null;
+		Set<Integer> studIds=null;
 		try {
 			workbook = new XSSFWorkbook(file.getInputStream());
 			gradeMap = gradeRepo.getGradeMap(schoolId);
 			grSection= sectionRepo.getGradeSectionMap(schoolId);
 			mobiles=userService.getMobileNo();
+			studIds=studentRepo.getAllStudentsId(schoolId);
 			Sheet datatypeSheet = workbook.getSheetAt(0);
 			int length = datatypeSheet.getLastRowNum();
 			DataFormatter objDefaultFormat = new DataFormatter();
@@ -270,6 +272,7 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 			for (int i = 1; i < length; i++) {
 				try {
 					Row row = datatypeSheet.getRow(i);
+					boolean studIdFound=false;
 					if (row == null)
 						break;
 					request = new UserRequest();
@@ -287,6 +290,9 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 							case 1:
 								if (isEmpty(cellValueStr)) {
 									request.addUserRequestError(new UserRequestErrors(ErrorCodeV.STUDID_NOTEMPTY));
+								}else if(studIds.contains(Integer.valueOf(cellValueStr))) {
+									studIdFound=true;
+									request.addUserRequestError(new UserRequestErrors(ErrorCodeV.STUDID_FOUND));
 								}
 								request.setStudId(Integer.valueOf(cellValueStr));
 								break;
@@ -365,8 +371,10 @@ public class StudentServiceImpl implements StudentService,FileUploads {
 								request.setMobile(cellValueStr);
 								if (isEmpty(request.getMobile())) {
 									request.addUserRequestError(new UserRequestErrors(ErrorCodeV.MOBILE_NOTEMPTY));
-								} else if (!request.getMobile().matches(Constant.MOBILE_REGEX) || mobiles.contains(request.getMobile())) {
+								} else if (!request.getMobile().matches(Constant.MOBILE_REGEX) ) {
 									request.addUserRequestError(new UserRequestErrors(ErrorCodeV.MOBILE_REGEX));
+								}else if(studIdFound && mobiles.contains(request.getMobile())) {
+									request.addUserRequestError(new UserRequestErrors(ErrorCodeV.MOBILE_FOUND));
 								}
 								break;
 							case 13:
