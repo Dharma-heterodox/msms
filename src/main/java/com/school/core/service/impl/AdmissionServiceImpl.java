@@ -41,17 +41,22 @@ public class AdmissionServiceImpl implements AdmissionService {
 
 	@Override
 	public AdmissionDto createAdmission(Long schoolId, AdmissionDto admissionDto) {
-		Admission admission = modelMapper.map(admissionDto, Admission.class);
-		admission.setSchoolId(schoolId);
-		admission.setActive(true);
-		List<Admission> admissions = admissionRepo.findAdmission(schoolId, admission.getGrade(), admission.getMobile());
-		if (!CollectionUtils.isEmpty(admissions)) {
-			throw new ValidationException("Your admission request already exist.");
+		try {
+			Admission admission = modelMapper.map(admissionDto, Admission.class);
+			admission.setSchoolId(schoolId);
+			admission.setActive(true);
+			List<Admission> admissions = admissionRepo.findAdmission(schoolId, admission.getGrade(), admission.getMobile());
+			if (!CollectionUtils.isEmpty(admissions)) {
+				throw new ValidationException("Your admission request already exist.");
+			}
+			admission = admissionRepo.save(admission);
+			admissionDto = modelMapper.map(admission, AdmissionDto.class);
+			String msg = "Deaer Parent, Thanks for your interest in our school. We acknowledge the recipt of your registration form. We will contact you in 48 hours. Happy Schooling!";
+			notificationService.sendSMS(admission.getMobile(), msg, "Admission", admissionDto.getId());
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
-		admission = admissionRepo.save(admission);
-		admissionDto = modelMapper.map(admission, AdmissionDto.class);
-		String msg = "Deaer Parent, Thanks for your interest in our school. We acknowledge the recipt of your registration form. We will contact you in 48 hours. Happy Schooling!";
-		notificationService.sendSMS(admission.getMobile(), msg, "Admission", admissionDto.getId());
+		
 		return admissionDto;
 	}
 
@@ -106,7 +111,7 @@ public class AdmissionServiceImpl implements AdmissionService {
 		        row.createCell(4).setCellValue(admission.getFatherName());
 		        row.createCell(5).setCellValue(admission.getMobile());
 		        row.createCell(6).setCellValue(admission.getAlternateMobile());
-		        row.createCell(7).setCellValue(admission.getCreatedTime().toString());
+		        row.createCell(7).setCellValue(admission.getCreatedTime());
 		      }
 	      }
 	      workbook.write(out);

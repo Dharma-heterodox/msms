@@ -2,7 +2,7 @@ package com.school.core.util;
 
 public interface Constant {
 
-	public String currentAcademicYear = "2020-2021";
+	public String currentAcademicYear = "2021-2022";
 	public String lastAcademicYear = "2019-2020";
 	public String STATUS_PENDING = "Pending";
 	public String STATUS_SENT = "Sent";

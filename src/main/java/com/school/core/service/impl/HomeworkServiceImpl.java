@@ -176,6 +176,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 		}catch(Exception ex) {
 			logger.debug("Exception at saveHomework service");
 			logger.error("Error at saveHomework service : "+ex.getMessage());
+			ex.printStackTrace();
 			throw new Exception(ex);
 		}
 	}
