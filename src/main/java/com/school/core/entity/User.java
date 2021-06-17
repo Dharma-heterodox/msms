@@ -59,8 +59,8 @@ public class User extends BaseEntity {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_organization", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "org_id"))
     private Set<Organization> organizations;
-    @Column(name = "login_id")
-    private int loginId;
+    @Column(name = "login_id",length=50)
+    private String loginId;
     @Column(name = "loggedin",columnDefinition = "boolean default false")
     private boolean loggedIn;
     
@@ -144,10 +144,10 @@ public class User extends BaseEntity {
 		this.organizations = organizations;
 	}
 	
-	public int getLoginId() {
+	public String getLoginId() {
 		return loginId;
 	}
-	public void setLoginId(int loginId) {
+	public void setLoginId(String loginId) {
 		this.loginId = loginId;
 	}
 	public boolean isLoggedIn() {

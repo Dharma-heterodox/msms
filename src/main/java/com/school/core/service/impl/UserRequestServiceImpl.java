@@ -102,7 +102,8 @@ public class UserRequestServiceImpl implements UserRequestService{
 				user.setUserName(h.getMotherName());
 				user.setUserType("");
 				user.setLastName(h.getFatherName());
-				user.setLoginId(h.getStudId());
+//				user.setLoginId(h.getStudId());
+				user.setLoginId("");
 				userList.add(user);
 			});
 		}catch(Exception ex) {
@@ -221,7 +222,8 @@ public class UserRequestServiceImpl implements UserRequestService{
 				user.setUserName(h.getEmployeeName());
 				user.setUserType("");
 				user.setLastName(h.getEmployeeName());
-				user.setLoginId(h.getEmployeeId());
+//				user.setLoginId(h.getEmployeeId());
+				user.setLoginId("");
 				userList.add(user);
 			});
 		}catch(Exception ex) {
