@@ -35,6 +35,7 @@ public class Homework extends BaseEntity {
 	@Lob
 	private String fileURL;
 	private boolean approved;
+	private boolean active;
 	
 	public Long getId() {
 		return id;
@@ -115,6 +116,14 @@ public class Homework extends BaseEntity {
 	public void setFileURL(String fileURL) {
 		this.fileURL = fileURL;
 	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	
 	
 	
 	

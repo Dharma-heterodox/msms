@@ -164,6 +164,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 		work.setTeacherId(dto.getTeacherId());
 		work.setTitle(dto.getTitle());
 		work.setFileURL(dto.getS3URL());
+		work.setActive(true);
 		return work;
 	}
 	
