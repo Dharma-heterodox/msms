@@ -11,7 +11,7 @@ public class LoginDto implements Serializable {
 	
 	private String mobilenumber;
 	private String userCode;
-	private String loginId;
+//	private String loginId;
 
 	public String getMobilenumber() {
 		return mobilenumber;
@@ -29,13 +29,13 @@ public class LoginDto implements Serializable {
 		this.userCode = userCode;
 	}
 
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
-	}
+//	public String getLoginId() {
+//		return loginId;
+//	}
+//
+//	public void setLoginId(String loginId) {
+//		this.loginId = loginId;
+//	}
 	
 	
 	
