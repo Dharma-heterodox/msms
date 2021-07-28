@@ -109,7 +109,7 @@ public class LoginController {
         }
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
         AuthResponseDto authResponse = new AuthResponseDto();
-		UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+		UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getMobile(), user.getPassword(),
                 user.getActive(), true, true, true, authorities);
 		authenticate(userDetails);
 		String token = jwtTokenUtil.generateToken(userDetails);

@@ -27,7 +27,8 @@ public class SMSUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userService.findUserByUserName(userName);
+//       User user = userService.findUserByUserName(userName);
+    	User user = userService.findUserByMobile(userName);
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }
@@ -42,7 +43,7 @@ public class SMSUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.getMobile(), user.getPassword(),
                 user.getActive(), true, true, true, authorities);
     }
 }
