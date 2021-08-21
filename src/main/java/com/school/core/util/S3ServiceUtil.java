@@ -45,7 +45,7 @@ public final class S3ServiceUtil {
 			if(s3Client==null) {
 				AWSCredentials credentials=new BasicAWSCredentials(accesskey, secretkey);
 				s3Client=AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).
-						withRegion(Regions.AP_SOUTH_1).build();
+						withRegion(Regions.AP_SOUTHEAST_1).build();
 				logger.debug("S3 Connection Estabilesd :: "+s3Client.getRegionName());
 			}
 		}catch(Exception ex) {
