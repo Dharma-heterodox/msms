@@ -126,7 +126,7 @@ public final class S3ServiceUtil {
 		String[] urls=null;
 		List<String> urlList=new ArrayList<String>();
 		if(url!=null && url.contains(urlSeperator)) {
-			urls=url.split(urlSeperator);
+			urls=url.split("\\"+urlSeperator);
 			for(int i=0;i<urls.length;i++) {
 				urlList.add(s3BucketUrl+"/"+urls[i]);
 			}
