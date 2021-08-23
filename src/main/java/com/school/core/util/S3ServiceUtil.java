@@ -128,10 +128,10 @@ public final class S3ServiceUtil {
 		if(url!=null && url.contains(urlSeperator)) {
 			urls=url.split("\\"+urlSeperator);
 			for(int i=0;i<urls.length;i++) {
-				urlList.add(s3BucketUrl+"/"+urls[i]);
+				urlList.add(s3BucketUrl+urls[i]);
 			}
 		}else {
-			urlList.add(s3BucketUrl+"/"+url);
+			urlList.add(s3BucketUrl+url);
 		}
 		return urlList;
 	}
