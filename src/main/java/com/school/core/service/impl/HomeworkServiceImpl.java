@@ -221,7 +221,7 @@ public class HomeworkServiceImpl implements HomeworkService {
 				dto.setSubjectId(h.getSubjectId());
 				dto.setTeacherId(h.getTeacherId());
 				dto.setTitle(h.getTitle());
-				dto.setS3Download(s3Service.makeURL(h.getFileURL()));
+				dto.setS3Download(h.getFileURL()==null ? null:s3Service.makeURL(h.getFileURL()));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
